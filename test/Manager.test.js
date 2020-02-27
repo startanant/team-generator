@@ -1,6 +1,10 @@
 const Manager = require("../lib/Manager");
 const Employee = require("../lib/Employee");
 
+test.only('this will be the only test that runs', () => {
+  expect(true).toBe(true);
+});
+
 test("Can set office number via constructor argument", () => {
   const testValue = 100;
   const e = new Manager("Foo", 1, "test@test.com", testValue);
