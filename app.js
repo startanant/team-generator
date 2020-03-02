@@ -104,14 +104,15 @@ async function main(){
     for( let userCnt=1; userCnt <= managerRequest.teamSize; userCnt++ ){
         const typeRequest = await inquirer.prompt(typePrompts);
         if (typeRequest.choice == 'Engineer') {
-            console.log('engineer code');
             const engineerRequest = await inquirer.prompt(engineerPrompts);
             const engineer = new Engineer(engineerRequest.name, engineerRequest.email, engineerRequest.github);
             team += readCard( engineer );
 
         }
         if (typeRequest.choice == 'Intern') {
-            console.log('Intern code');
+            const internRequest = await inquirer.prompt(internPrompts);
+            const intern = new Intern(internRequest.name, internRequest.email, internRequest.school);
+            team += readCard( intern );
         }
 
        
