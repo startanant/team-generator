@@ -2,6 +2,8 @@ const inquirer = require( 'inquirer' );
 const fs = require( 'fs' );
 const Employee = require('./lib/employee');
 const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
 
 const managerPrompts = [
@@ -19,6 +21,11 @@ const managerPrompts = [
         type: "input",
         message: "Manager Office Number: ",
         name: "officeNumber"
+    },
+    {
+        type: "input",
+        message: "Team Size?: ",
+        name: "teamSize"
     }
 ];
 
@@ -26,17 +33,44 @@ const engineerPrompts = [
     {
         type: "input",
         message: "Engineer Name: ",
-        name: "managerName"
+        name: "name"
     },
     {
         type: "input",
-        message: "Manager E-mail: ",
-        name: "managerEmail"
+        message: "Engineer E-mail: ",
+        name: "email"
     },
     {
         type: "input",
-        message: "Manager Office Number: ",
-        name: "managerOffice"
+        message: "GitHub username: ",
+        name: "github"
+    }
+];
+
+const internPrompts = [
+    {
+        type: "input",
+        message: "Intern Name: ",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "Intern E-mail: ",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "School: ",
+        name: "school"
+    }
+];
+
+const typePrompts = [
+    {
+        type: "list",
+        message: "Type of employee?",
+        name: "choice",
+        choices: ['Engineer', 'Intern']
     }
 ];
 
@@ -65,7 +99,24 @@ async function main(){
     
     //generate manager card
     team += readCard( manager );
-    console.log(team);
+    //console.log(team);
+
+    for( let userCnt=1; userCnt <= managerRequest.teamSize; userCnt++ ){
+        const typeRequest = await inquirer.prompt(typePrompts);
+        if (typeRequest.choice == 'Engineer') {
+            console.log('engineer code');
+            const engineerRequest = await inquirer.prompt(engineerPrompts);
+            const engineer = new Engineer(engineerRequest.name, engineerRequest.email, engineerRequest.github);
+            team += readCard( engineer );
+
+        }
+        if (typeRequest.choice == 'Intern') {
+            console.log('Intern code');
+        }
+
+       
+    }
+
 
     //generate final output
     const html = readCard( { role: 'main', team: team } );
