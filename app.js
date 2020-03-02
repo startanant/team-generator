@@ -8,6 +8,24 @@ const managerPrompts = [
     {
         type: "input",
         message: "Manager Name: ",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "Manager E-mail: ",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "Manager Office Number: ",
+        name: "officeNumber"
+    }
+];
+
+const engineerPrompts = [
+    {
+        type: "input",
+        message: "Engineer Name: ",
         name: "managerName"
     },
     {
@@ -40,14 +58,19 @@ async function main(){
     const managerRequest = await inquirer.prompt(managerPrompts);
     console.log(managerRequest);
 
-    const manager = new Manager(managerRequest.managerName, managerRequest.managerEmail, managerRequest.managerOffice);
+    const manager = new Manager(managerRequest.name, managerRequest.email, managerRequest.officeNumber);
 
     //generate html
     let team = '';
+    
+    //generate manager card
     team += readCard( manager );
     console.log(team);
 
-
+    //generate final output
+    const html = readCard( { role: 'main', team: team } );
+    console.log(html)
+    fs.writeFileSync( 'output/team.html', html );
 
 }
 
